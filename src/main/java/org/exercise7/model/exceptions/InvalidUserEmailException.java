@@ -17,4 +17,8 @@ public class InvalidUserEmailException extends DomainException{
     public static InvalidUserEmailException becauseIsEmpty(){
         return new InvalidUserEmailException(MESSAGE_INVALID_EMPTY);
     }
+
+    public static InvalidUserEmailException becauseIsNull(){
+        return new InvalidUserEmailException(MESSAGE_INVALID_NULL);
+    }
 }
