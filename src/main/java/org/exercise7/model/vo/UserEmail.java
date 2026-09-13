@@ -15,9 +15,16 @@ public record UserEmail(String value) {
             throw InvalidUserEmailException.becauseFormatIsInvalid();
         }
     }
+
     private static void validateNotEmptyEmail(String value){
         if (value.isEmpty()){
             throw InvalidUserEmailException.becauseIsEmpty();
+        }
+    }
+
+    private static void validateNotNullEmail(String value){
+        if (value.isEmpty()){
+            throw InvalidUserEmailException.becauseIsNull();
         }
     }
 
