@@ -33,5 +33,4 @@ public record UserEmail(String value) {
         validateNotEmptyEmail(value);
         validateFormatEmail(value);
     }
-
 }
