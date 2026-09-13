@@ -24,4 +24,8 @@ public class InvalidUserPasswordException extends DomainException{
     public static InvalidUserPasswordException becauseFormatIsInvalid(){
         throw new InvalidUserPasswordException(MESSAGE_INVALID_FORMAT);
     }
+
+    public static InvalidUserPasswordException becausePasswordIsInvalid(){
+        throw new InvalidUserPasswordException(MESSAGE_INVALID_PASSWORD);
+    }
 }
