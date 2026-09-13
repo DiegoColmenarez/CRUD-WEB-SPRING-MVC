@@ -22,5 +22,9 @@ public record UserName(String value) {
         }
     }
 
-
+    private  static void  validateNameNotNull(String value){
+        if (value == null){
+            throw InvalidUserNameException.becauseIsNull();
+        }
+    }
 }
