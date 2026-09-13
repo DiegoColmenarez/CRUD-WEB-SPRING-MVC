@@ -12,5 +12,11 @@ public class InvalidUserPasswordException extends DomainException{
             "and an uppercase letter. It cannot contain spaces.";
     private static final String MESSAGE_INVALID_PASSWORD = "Incorrect password";
 
+    public static InvalidUserPasswordException becauseIsEmpty(){
+        throw new InvalidUserPasswordException(MESSAGE_INVALID);
+    }
 
+    public static InvalidUserPasswordException becauseFormatIsInvalid(){
+        throw new InvalidUserPasswordException(MESSAGE_INVALID_FORMAT);
+    }
 }
