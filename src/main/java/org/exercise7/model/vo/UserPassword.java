@@ -14,4 +14,10 @@ public record UserPassword(String value) {
             throw InvalidUserPasswordException.becauseFormatIsInvalid();
         }
     }
+
+    private static void validateIsNotEmpty(String value){
+        if (value.isEmpty()){
+            throw InvalidUserPasswordException.becauseIsEmpty();
+        }
+    }
 }
