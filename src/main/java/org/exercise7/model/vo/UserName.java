@@ -2,7 +2,6 @@ package org.exercise7.model.vo;
 
 import org.exercise7.model.exceptions.InvalidUserNameException;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public record UserName(String value) {
@@ -27,4 +26,13 @@ public record UserName(String value) {
             throw InvalidUserNameException.becauseIsNull();
         }
     }
+
+    public UserName{
+        validateNameNotNull(value);
+        String normalizedValue = value.trim().toUpperCase();
+        validateNameNotEmpty(normalizedValue);
+        validateNameFormat(normalizedValue);
+        value = normalizedValue;
+    }
+
 }
