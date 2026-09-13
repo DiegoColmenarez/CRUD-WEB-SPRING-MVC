@@ -10,9 +10,15 @@ public record UserType(TypeUser value) {
             throw InvalidUserTypeException.becauseValueIsInvalid();
         }
     }
+
     private static void validateNotNull(String value){
         if (value == null){
             throw InvalidUserTypeException.becauseIsNull();
         }
+    }
+
+    public UserType{
+        validateNotNull(String.valueOf(value));
+        validateType(String.valueOf(value));
     }
 }
