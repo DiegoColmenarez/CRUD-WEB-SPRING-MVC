@@ -20,4 +20,12 @@ public record UserPassword(String value) {
             throw InvalidUserPasswordException.becauseIsEmpty();
         }
     }
+
+    private static void validateIsNotNull(String value){
+        if (value == null){
+            throw InvalidUserPasswordException.becauseIsNull();
+        }
+    }
+
+
 }
