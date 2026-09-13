@@ -28,4 +28,10 @@ public record UserEmail(String value) {
         }
     }
 
+    public UserEmail{
+        validateNotNullEmail(value);
+        validateNotEmptyEmail(value);
+        validateFormatEmail(value);
+    }
+
 }
