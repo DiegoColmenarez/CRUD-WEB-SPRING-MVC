@@ -34,5 +34,4 @@ public record UserName(String value) {
         validateNameFormat(normalizedValue);
         value = normalizedValue;
     }
-
 }
