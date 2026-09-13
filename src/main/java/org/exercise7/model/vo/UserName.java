@@ -15,4 +15,12 @@ public record UserName(String value) {
             throw InvalidUserNameException.becauseContainsInvalidCharacters();
         }
     }
+
+    private  static void validateNameNotEmpty(String value){
+        if (value.isEmpty()){
+            throw InvalidUserNameException.becauseIsEmpty();
+        }
+    }
+
+
 }
