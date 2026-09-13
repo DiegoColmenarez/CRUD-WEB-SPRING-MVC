@@ -5,4 +5,7 @@ public class InvalidUserNameException extends DomainException{
         super(message);
     }
 
+    private static String MESSAGE_INVALID = "The name is invalid";
+    private static String MESSAGE_INVALID_EMPTY = "The name is empty";
+
 }
