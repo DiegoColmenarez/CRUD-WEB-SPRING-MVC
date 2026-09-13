@@ -13,4 +13,8 @@ public class InvalidUserEmailException extends DomainException{
     public static InvalidUserEmailException becauseFormatIsInvalid(){
         return new InvalidUserEmailException(MESSAGE_INVALID);
     }
+
+    public static InvalidUserEmailException becauseIsEmpty(){
+        return new InvalidUserEmailException(MESSAGE_INVALID_EMPTY);
+    }
 }
