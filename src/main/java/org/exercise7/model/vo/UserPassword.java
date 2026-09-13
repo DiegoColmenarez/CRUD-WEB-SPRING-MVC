@@ -27,5 +27,9 @@ public record UserPassword(String value) {
         }
     }
 
-
+    public UserPassword{
+        validateIsNotNull(value);
+        validateIsNotEmpty(value);
+        validateFormat(value);
+    }
 }
