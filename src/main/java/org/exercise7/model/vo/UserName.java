@@ -21,10 +21,14 @@ public class UserName {
         validateNotNull(value);
         String normalized = value.trim().toUpperCase();
         validateNotEmpty(normalized);
+        validateFormat(normalized);
+        this.value = normalized;
+    }
+
+    private static void validateFormat(String normalized) {
         if (!NAME_PATTERN.matcher(normalized).matches()) {
             throw InvalidUserNameException.becauseContainsInvalidCharacters();
         }
-        this.value = normalized;
     }
 
     private static void validateNotEmpty(String normalized) {
