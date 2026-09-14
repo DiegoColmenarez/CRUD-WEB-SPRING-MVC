@@ -18,9 +18,7 @@ public class UserName {
     protected UserName() {}
 
     public UserName(String value) {
-        if (value == null) {
-            throw InvalidUserNameException.becauseIsNull();
-        }
+        validateNotNull(value);
         String normalized = value.trim().toUpperCase();
         if (normalized.isEmpty()) {
             throw InvalidUserNameException.becauseIsEmpty();
@@ -29,6 +27,12 @@ public class UserName {
             throw InvalidUserNameException.becauseContainsInvalidCharacters();
         }
         this.value = normalized;
+    }
+
+    private static void validateNotNull(String value) {
+        if (value == null) {
+            throw InvalidUserNameException.becauseIsNull();
+        }
     }
 
     public String getValue() { return value; }
