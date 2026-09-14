@@ -1,37 +1,60 @@
 package org.exercise7.model.vo;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import org.exercise7.model.exceptions.InvalidUserNameException;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
-public record UserName(String value) {
+@Embeddable
+public class UserName {
 
-    private static final Pattern NAME_PATTERN =
-            Pattern.compile("^[\\p{L} \\-']+$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[\\p{L} \\-']+$");
 
-    private static void validateNameFormat(String value) {
-        if (!NAME_PATTERN.matcher(value).matches()) {
+    @Column(name = "nombre", length = 100)
+    private String value;
+
+    protected UserName() {}
+
+    public UserName(String value) {
+        validateNotNull(value);
+        String normalized = value.trim().toUpperCase();
+        validateNotEmpty(normalized);
+        validateFormat(normalized);
+        this.value = normalized;
+    }
+
+    private static void validateFormat(String normalized) {
+        if (!NAME_PATTERN.matcher(normalized).matches()) {
             throw InvalidUserNameException.becauseContainsInvalidCharacters();
         }
     }
 
-    private  static void validateNameNotEmpty(String value){
-        if (value.isEmpty()){
+    private static void validateNotEmpty(String normalized) {
+        if (normalized.isEmpty()) {
             throw InvalidUserNameException.becauseIsEmpty();
         }
     }
 
-    private  static void  validateNameNotNull(String value){
-        if (value == null){
+    private static void validateNotNull(String value) {
+        if (value == null) {
             throw InvalidUserNameException.becauseIsNull();
         }
     }
 
-    public UserName{
-        validateNameNotNull(value);
-        String normalizedValue = value.trim().toUpperCase();
-        validateNameNotEmpty(normalizedValue);
-        validateNameFormat(normalizedValue);
-        value = normalizedValue;
+    public String getValue() { return value; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserName)) return false;
+        return Objects.equals(value, ((UserName) o).value);
     }
+
+    @Override
+    public int hashCode() { return Objects.hash(value); }
+
+    @Override
+    public String toString() { return value; }
 }
