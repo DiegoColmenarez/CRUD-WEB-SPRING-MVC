@@ -40,7 +40,6 @@ public class User {
     @Column(name = "tipo", length = 100)
     private TypeUser type;
 
-    // Hibernate requiere un constructor vacío
     public User() {}
 
     public User(String name, String lastName, String email, String password, TypeUser type) {
