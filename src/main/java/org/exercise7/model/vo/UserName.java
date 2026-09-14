@@ -20,13 +20,17 @@ public class UserName {
     public UserName(String value) {
         validateNotNull(value);
         String normalized = value.trim().toUpperCase();
-        if (normalized.isEmpty()) {
-            throw InvalidUserNameException.becauseIsEmpty();
-        }
+        validateNotEmpty(normalized);
         if (!NAME_PATTERN.matcher(normalized).matches()) {
             throw InvalidUserNameException.becauseContainsInvalidCharacters();
         }
         this.value = normalized;
+    }
+
+    private static void validateNotEmpty(String normalized) {
+        if (normalized.isEmpty()) {
+            throw InvalidUserNameException.becauseIsEmpty();
+        }
     }
 
     private static void validateNotNull(String value) {
