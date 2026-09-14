@@ -1,6 +1,6 @@
 package org.exercise7.model.exceptions;
 
-public class InvalidUserEmailException extends DomainException{
+public class InvalidUserEmailException extends DomainException {
     public InvalidUserEmailException(String message) {
         super(message);
     }
@@ -10,19 +10,19 @@ public class InvalidUserEmailException extends DomainException{
     private static final String MESSAGE_INVALID_NULL = "Email is Invalid, It's NULL.";
     private static final String MESSAGE_EMAIL_EXIST = "Email is Invalid, This email is already registered.";
 
-    public static InvalidUserEmailException becauseFormatIsInvalid(){
+    public static InvalidUserEmailException becauseFormatIsInvalid() {
         return new InvalidUserEmailException(MESSAGE_INVALID);
     }
 
-    public static InvalidUserEmailException becauseIsEmpty(){
+    public static InvalidUserEmailException becauseIsEmpty() {
         return new InvalidUserEmailException(MESSAGE_INVALID_EMPTY);
     }
 
-    public static InvalidUserEmailException becauseIsNull(){
+    public static InvalidUserEmailException becauseIsNull() {
         return new InvalidUserEmailException(MESSAGE_INVALID_NULL);
     }
 
-    public static InvalidUserEmailException becauseEmailAlredy(){
+    public static InvalidUserEmailException becauseEmailAlredy() {
         return new InvalidUserEmailException(MESSAGE_EMAIL_EXIST);
     }
 }

@@ -7,7 +7,7 @@ public class InvalidUserIdException extends DomainException {
 
     private static final String MESSAGE_INVALID_ID = "The ID is invalid";
 
-    public static InvalidUserIdException becauseIdIsInvalid(){
+    public static InvalidUserIdException becauseIdIsInvalid() {
         return new InvalidUserIdException(MESSAGE_INVALID_ID);
     }
 }
