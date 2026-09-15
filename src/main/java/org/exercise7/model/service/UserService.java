@@ -57,4 +57,12 @@ public class UserService {
     public List<User> findUsersByLastName(String lastName) {
         return userRepository.findByLastName(lastName);
     }
+
+    @Transactional
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw UserNotFoundException.becauseIdDoesNotExist(id);
+        }
+        userRepository.deleteById(id);
+    }
 }
