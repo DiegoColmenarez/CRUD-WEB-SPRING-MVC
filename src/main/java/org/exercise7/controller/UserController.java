@@ -2,6 +2,7 @@ package org.exercise7.controller;
 
 import jakarta.validation.Valid;
 import org.exercise7.model.entity.User;
+import org.exercise7.model.enums.TypeUser;
 import org.exercise7.model.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,5 +49,12 @@ public class UserController {
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/usuarios/lista";
+    }
+
+    @GetMapping("/tipo")
+    public String listUsersByType(@RequestParam("tipo") TypeUser type, Model model) {
+        //List<User> users = userService.findUsersByType(type);
+        //model.addAttribute("users", users);
+        return "users/lista";
     }
 }
