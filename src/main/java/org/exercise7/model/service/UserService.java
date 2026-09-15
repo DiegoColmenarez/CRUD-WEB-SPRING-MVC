@@ -74,4 +74,12 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(rawNewPassword);
         userRepository.updatePassword(id, encodedPassword);
     }
+
+    @Transactional
+    public void updateUserBasicInfo(Long id, String newName, String newLastName) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> UserNotFoundException.becauseIdDoesNotExist(id));
+        existingUser.setName(newName);
+        existingUser.setLastName(newLastName);
+    }
 }
