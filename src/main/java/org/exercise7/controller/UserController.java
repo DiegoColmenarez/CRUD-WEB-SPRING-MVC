@@ -57,4 +57,22 @@ public class UserController {
         //model.addAttribute("users", users);
         return "users/lista";
     }
+
+    @GetMapping("/editar/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.findUserById(id));
+        return "users/formulario";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String updateUser(@PathVariable Long id,
+                             @Valid @ModelAttribute("user") User user,
+                             BindingResult result) {
+        if (result.hasErrors()) return "users/formulario";
+        userService.updateUserBasicInfo(id, user.getName(), user.getLastName());
+        userService.updateUserPassword(id, user.getPassword());
+        return "redirect:/usuarios/lista";
+    }
+
+
 }
