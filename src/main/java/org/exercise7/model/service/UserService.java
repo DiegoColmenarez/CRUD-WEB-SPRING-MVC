@@ -1,6 +1,7 @@
 package org.exercise7.model.service;
 
 import org.exercise7.model.entity.User;
+import org.exercise7.model.enums.TypeUser;
 import org.exercise7.model.exceptions.EmailAlreadyExistsException;
 import org.exercise7.model.exceptions.UserNotFoundException;
 import org.exercise7.model.repository.UserRepository;
@@ -81,5 +82,10 @@ public class UserService {
                 .orElseThrow(() -> UserNotFoundException.becauseIdDoesNotExist(id));
         existingUser.setName(newName);
         existingUser.setLastName(newLastName);
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> findUsersByType(TypeUser type) {
+        return userRepository.findByType(type);
     }
 }
