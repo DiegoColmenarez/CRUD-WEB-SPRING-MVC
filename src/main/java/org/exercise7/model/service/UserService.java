@@ -65,4 +65,13 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
+    @Transactional
+    public void updateUserPassword(Long id, String rawNewPassword) {
+        if (!userRepository.existsById(id)) {
+            throw UserNotFoundException.becauseIdDoesNotExist(id);
+        }
+        String encodedPassword = passwordEncoder.encode(rawNewPassword);
+        userRepository.updatePassword(id, encodedPassword);
+    }
 }
