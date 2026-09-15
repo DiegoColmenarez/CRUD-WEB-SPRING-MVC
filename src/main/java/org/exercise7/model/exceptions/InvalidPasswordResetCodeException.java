@@ -8,4 +8,8 @@ public class InvalidPasswordResetCodeException extends DomainException {
     private static final String MESSAGE_EXPIRED = "Reset code has expired, please request a new one";
     private static final String MESSAGE_ALREADY_USED = "Reset code has already been used";
     private static final String MESSAGE_NOT_FOUND = "Reset code does not exist or is invalid";
+
+    public static InvalidPasswordResetCodeException becauseCodeHasExpired() {
+        return new InvalidPasswordResetCodeException(MESSAGE_EXPIRED);
+    }
 }
