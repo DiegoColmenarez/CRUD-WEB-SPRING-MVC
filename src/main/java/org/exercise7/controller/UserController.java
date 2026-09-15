@@ -57,4 +57,12 @@ public class UserController {
         //model.addAttribute("users", users);
         return "users/lista";
     }
+
+    @GetMapping("/editar/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.findUserById(id));
+        return "users/formulario";
+    }
+
+
 }
