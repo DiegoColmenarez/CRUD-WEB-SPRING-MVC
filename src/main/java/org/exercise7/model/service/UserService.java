@@ -52,4 +52,9 @@ public class UserService {
     public List<User> findUsersByName(String name) {
         return userRepository.findByName(name);
     }
+
+    @Transactional(readOnly = true)
+    public List<User> findUsersByLastName(String lastName) {
+        return userRepository.findByLastName(lastName);
+    }
 }
