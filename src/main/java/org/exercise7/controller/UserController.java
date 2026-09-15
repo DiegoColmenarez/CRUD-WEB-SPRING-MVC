@@ -1,7 +1,10 @@
 package org.exercise7.controller;
 
+import org.exercise7.model.entity.User;
 import org.exercise7.model.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -11,5 +14,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/nuevo")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "users/formulario";
     }
 }
