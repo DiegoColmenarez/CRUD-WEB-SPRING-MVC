@@ -12,4 +12,8 @@ public class InvalidPasswordResetCodeException extends DomainException {
     public static InvalidPasswordResetCodeException becauseCodeHasExpired() {
         return new InvalidPasswordResetCodeException(MESSAGE_EXPIRED);
     }
+
+    public static InvalidPasswordResetCodeException becauseCodeWasAlreadyUsed() {
+        return new InvalidPasswordResetCodeException(MESSAGE_ALREADY_USED);
+    }
 }
