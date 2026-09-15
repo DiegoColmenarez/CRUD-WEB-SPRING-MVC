@@ -47,4 +47,9 @@ public class UserService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public List<User> findUsersByName(String name) {
+        return userRepository.findByName(name);
+    }
 }
