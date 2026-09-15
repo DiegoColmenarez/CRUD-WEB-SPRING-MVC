@@ -27,4 +27,10 @@ public class GlobalExceptionHandler {
         return "error/business-error";
     }
 
+    @ExceptionHandler(Exception.class)
+    public String handleGenericException(Exception ex, Model model) {
+        logger.error("Error crítico no controlado en el servidor", ex);
+        model.addAttribute("errorMessage", "Ha ocurrido un error interno en el servidor. Por favor, intente más tarde.");
+        return "error/500";
+    }
 }
