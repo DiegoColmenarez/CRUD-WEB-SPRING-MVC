@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByLastName(String lastName);
 
-    Optional<User> findByType(TypeUser type);
+    List<User> findByType(TypeUser type);
 
     @Modifying
     @Query("UPDATE User u SET u.password = :password WHERE u.id = :id")
