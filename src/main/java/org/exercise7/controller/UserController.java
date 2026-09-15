@@ -53,8 +53,8 @@ public class UserController {
 
     @GetMapping("/tipo")
     public String listUsersByType(@RequestParam("tipo") TypeUser type, Model model) {
-        //List<User> users = userService.findUsersByType(type);
-        //model.addAttribute("users", users);
+        List<User> users = userService.findUsersByType(type);
+        model.addAttribute("users", users);
         return "users/lista";
     }
 
