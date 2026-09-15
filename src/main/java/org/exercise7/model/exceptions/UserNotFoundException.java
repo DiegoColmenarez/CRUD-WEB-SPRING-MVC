@@ -11,4 +11,8 @@ public class UserNotFoundException extends DomainException{
     public static UserNotFoundException becauseIdDoesNotExist(Long userId) {
         return new UserNotFoundException(String.format(MESSAGE_USER_NOT_EXIST, userId));
     }
+
+    public static UserNotFoundException becauseEmailDoesNotExist(String email) {
+        return new UserNotFoundException(String.format(MESSAGE_USER_EMAIL_NOT_EXIST, email));
+    }
 }
