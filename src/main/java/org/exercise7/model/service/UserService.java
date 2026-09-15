@@ -1,6 +1,7 @@
 package org.exercise7.model.service;
 
 import org.exercise7.model.entity.User;
+import org.exercise7.model.exceptions.EmailAlreadyExistsException;
 import org.exercise7.model.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class UserService {
     @Transactional
     public User registerUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("The email is already registered");
+           throw EmailAlreadyExistsException.becauseEmailAlredyExist();
         }
          user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
