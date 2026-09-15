@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/usuarios")
 public class UserController {
@@ -36,5 +38,12 @@ public class UserController {
         }
         userService.registerUser(user);
         return "redirect:/usuarios/lista";
+    }
+
+    @GetMapping("/lista")
+    public String listUsers(Model model) {
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "users/lista";
     }
 }
