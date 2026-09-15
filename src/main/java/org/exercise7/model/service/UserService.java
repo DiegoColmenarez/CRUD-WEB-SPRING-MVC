@@ -34,4 +34,10 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.becauseIdDoesNotExist(id));
     }
+
+    @Transactional(readOnly = true)
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> UserNotFoundException.becauseEmailDoesNotExist(email));
+    }
 }
