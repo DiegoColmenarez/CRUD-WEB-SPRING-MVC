@@ -75,4 +75,10 @@ public class ComputerController {
         model.addAttribute("computers", computerService.findByBrand(brand));
         return "computers/list";
     }
+
+    @GetMapping("/search/category")
+    public String searchByCategory(@RequestParam("category") Category category, Model model) {
+        model.addAttribute("computers", computerService.findByCategory(category));
+        return "computers/list";
+    }
 }
