@@ -12,6 +12,7 @@
     <div class="container-fluid">
         <span class="navbar-brand">Panel de Control</span>
         <div class="d-flex">
+            <a th:href="@{/usuarios/nuevo}" class="btn btn-success me-2">+ Nuevo Usuario</a>
             <a th:href="@{/usuarios/lista}" class="btn btn-outline-light me-2">Ver Todos</a>
 
             <form th:action="@{/logout}" method="post">
@@ -52,6 +53,7 @@
     <div class="card shadow">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Resultados del Sistema</h5>
+            <a th:href="@{/usuarios/nuevo}" class="btn btn-primary btn-sm">+ Agregar Usuario</a>
         </div>
         <div class="card-body p-0">
             <table class="table table-hover table-striped mb-0">
