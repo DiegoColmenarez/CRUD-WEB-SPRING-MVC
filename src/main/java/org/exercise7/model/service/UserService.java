@@ -32,6 +32,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
+    public User saveUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw EmailAlreadyExistsException.becauseEmailAlredyExist();
+        }
+        if (user.getType() == null) {
+            user.setType(TypeUser.CLIENTE);
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
     @Transactional(readOnly = true)
     public User findUserById(Long id) {
         return userRepository.findById(id)
