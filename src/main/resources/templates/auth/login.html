@@ -32,6 +32,9 @@
                         </div>
                     </form>
                 </div>
+                <div th:if="${param.resetSuccess}" class="alert alert-success">
+                    Contraseña actualizada correctamente. Inicia sesión.
+                </div>
                 <div class="card-footer text-center py-3">
                     <div class="small"><a th:href="@{/usuarios/nuevo}">¿Necesitas una cuenta? Regístrate aquí</a></div>
                 </div>
