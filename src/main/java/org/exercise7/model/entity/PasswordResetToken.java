@@ -37,4 +37,9 @@ public class PasswordResetToken {
         this.code = code;
         this.expiresAt = expiresAt;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
