@@ -5,11 +5,13 @@ import org.exercise7.model.enums.Category;
 import org.exercise7.model.exceptions.ComputerNotFoundException;
 import org.exercise7.model.exceptions.InvalidComputerConfigurationException;
 import org.exercise7.model.repository.ComputerRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Service
 public class ComputerService {
 
     private final ComputerRepository computerRepository;
