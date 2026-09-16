@@ -1,4 +1,4 @@
-package org.exercise7.model.config;
+package org.exercise7.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +16,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // solo para pruebas
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/**", "/h2-console/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/usuarios/nuevo", "/usuarios/guardar", "/login").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .headers(h -> h.frameOptions(f -> f.disable()));
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/usuarios/lista", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                );
         return http.build();
     }
 }
