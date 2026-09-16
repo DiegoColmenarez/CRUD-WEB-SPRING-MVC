@@ -57,10 +57,17 @@ public class ComputerController {
         model.addAttribute("computers", computerService.findAllComputers());
         return "computers/list";
     }
+
     @PostMapping("/delete/{id}")
     public String deleteComputer(@PathVariable("id") Long id) {
         computerService.deleteComputer(id);
         return "redirect:/computers/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("computer", computerService.findById(id));
+        return "computers/form";
     }
 
 }
