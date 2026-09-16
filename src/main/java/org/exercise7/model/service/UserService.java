@@ -27,6 +27,7 @@ public class UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw EmailAlreadyExistsException.becauseEmailAlredyExist();
         }
+        user.setType(TypeUser.CLIENTE);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -35,12 +36,6 @@ public class UserService {
     public User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.becauseIdDoesNotExist(id));
-    }
-
-    @Transactional(readOnly = true)
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> UserNotFoundException.becauseEmailDoesNotExist(email));
     }
 
     @Transactional(readOnly = true)
