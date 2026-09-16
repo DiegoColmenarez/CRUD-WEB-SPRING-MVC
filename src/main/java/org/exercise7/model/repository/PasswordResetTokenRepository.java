@@ -16,6 +16,6 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
 
 
     @Modifying
-    @Query("UPDATE PasswordResetToken t SET t.used = true WHERE t.code = :code")
-    void markAsUsed(@Param("code") String code);
+    @Query("UPDATE PasswordResetToken t SET t.used = true WHERE t.id = :id")
+    void markAsUsedById(@Param("id") Long id);
 }
