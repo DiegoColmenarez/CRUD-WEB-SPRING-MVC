@@ -3,6 +3,7 @@ package org.exercise7.model.service;
 import org.exercise7.model.entity.Computer;
 import org.exercise7.model.enums.Category;
 import org.exercise7.model.exceptions.ComputerNotFoundException;
+import org.exercise7.model.exceptions.InvalidComputerConfigurationException;
 import org.exercise7.model.repository.ComputerRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class ComputerService {
     @Transactional
     public Computer saveComputer(Computer computer) {
         if (computer.getUsbPorts() + computer.getHdmiPorts() > 20) {
-            throw new IllegalArgumentException("Total port count cannot exceed 20"); //cambialo
+            throw InvalidComputerConfigurationException.becauseTotalPortsExceedLimit();
         }
         return computerRepository.save(computer);
     }
