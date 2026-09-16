@@ -61,6 +61,22 @@
                             </div>
                         </div>
 
+                        <div class="mb-3" th:if="${user.id == null}">
+                            <label class="form-label">Tipo de Usuario</label>
+                            <select th:field="*{type}"
+                                    class="form-select"
+                                    th:classappend="${#fields.hasErrors('type')} ? 'is-invalid' : ''">
+                                <option th:each="role : ${roles != null ? roles : T(org.exercise7.model.enums.TypeUser).values()}"
+                                        th:value="${role}"
+                                        th:text="${role}">CLIENTE</option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('type')}"
+                                 class="alert alert-danger mt-2 py-1 px-2 small"
+                                 th:errors="*{type}">
+                                Error en el tipo de usuario
+                            </div>
+                        </div>
+
                         <div class="mb-4" th:if="${user.id == null}">
                             <label class="form-label">Contraseña</label>
                             <input type="password" th:field="*{password}"
@@ -78,7 +94,7 @@
                             <button type="submit" class="btn btn-success"
                                     th:text="${user.id == null ? 'Crear Cuenta' : 'Guardar Cambios'}"></button>
 
-                            <a th:href="@{${user.id == null ? '/login' : '/usuarios/lista'}}"
+                            <a th:href="@{/usuarios/lista}"
                                class="btn btn-secondary">Cancelar y Volver</a>
                         </div>
                     </form>
