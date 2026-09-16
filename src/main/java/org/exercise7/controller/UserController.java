@@ -14,6 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/usuarios")
 public class UserController {
+
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -67,12 +68,13 @@ public class UserController {
     @PostMapping("/actualizar/{id}")
     public String updateUser(@PathVariable Long id,
                              @Valid @ModelAttribute("user") User user,
-                             BindingResult result) {
-        if (result.hasErrors()) return "users/formulario";
-        userService.updateUserBasicInfo(id, user.getName(), user.getLastName());
-        userService.updateUserPassword(id, user.getPassword());
+                             BindingResult result,
+                             Model model) {
+        if (result.hasErrors()) {
+            user.setId(id);
+            return "users/formulario";
+        }
+        userService.updateUserBasicInfo(id, user.getName(), user.getLastName(), user.getEmail());
         return "redirect:/usuarios/lista";
     }
-
-
 }
