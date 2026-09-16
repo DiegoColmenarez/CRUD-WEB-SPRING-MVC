@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @Controller
 @RequestMapping("/computers")
 public class ComputerController {
@@ -79,6 +81,12 @@ public class ComputerController {
     @GetMapping("/search/category")
     public String searchByCategory(@RequestParam("category") Category category, Model model) {
         model.addAttribute("computers", computerService.findByCategory(category));
+        return "computers/list";
+    }
+
+    @GetMapping("/search/price")
+    public String searchByMaxPrice(@RequestParam("maxPrice") BigDecimal maxPrice, Model model) {
+        model.addAttribute("computers", computerService.findByMaxPrice(maxPrice));
         return "computers/list";
     }
 }
