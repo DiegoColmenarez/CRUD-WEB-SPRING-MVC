@@ -57,7 +57,10 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<User> findUsersByName(String name) {
-        return userRepository.findByName(name);
+        if (name == null || name.trim().isEmpty()) {
+            return userRepository.findAll();
+        }
+        return userRepository.findByName(name.trim());
     }
 
     @Transactional(readOnly = true)
