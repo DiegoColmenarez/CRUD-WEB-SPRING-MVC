@@ -16,7 +16,7 @@ public class ComputerService {
     @Transactional
     public Computer saveComputer(Computer computer) {
         if (computer.getUsbPorts() + computer.getHdmiPorts() > 20) {
-            throw new IllegalArgumentException("Total port count cannot exceed 20");
+            throw new IllegalArgumentException("Total port count cannot exceed 20"); //cambialo
         }
         return computerRepository.save(computer);
     }
@@ -24,5 +24,11 @@ public class ComputerService {
     @Transactional(readOnly = true)
     public List<Computer> findAllComputers() {
         return computerRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Computer findById(Long id) {
+        return computerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Computer not found with ID: " + id)); //cambialo
     }
 }
