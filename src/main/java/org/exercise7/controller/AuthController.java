@@ -10,4 +10,9 @@ public class AuthController {
     public String showLoginForm() {
         return "auth/login";
     }
+
+    @GetMapping("/")
+    public String homeRedirect() {
+        return "redirect:/usuarios/lista";
+    }
 }
