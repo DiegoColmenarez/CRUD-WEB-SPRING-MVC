@@ -84,5 +84,11 @@ public class UserController {
         return "users/lista";
     }
 
+    @GetMapping("/buscar/nombre")
+    public String findByName(@RequestParam("nombre") String nombre, Model model) {
+        model.addAttribute("users", userService.findUsersByName(nombre));
+        return "users/lista";
+    }
+
 
 }
