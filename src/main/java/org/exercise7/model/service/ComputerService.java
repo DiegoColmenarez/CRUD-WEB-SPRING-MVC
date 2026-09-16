@@ -6,6 +6,7 @@ import org.exercise7.model.exceptions.ComputerNotFoundException;
 import org.exercise7.model.repository.ComputerRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ComputerService {
@@ -50,5 +51,10 @@ public class ComputerService {
     @Transactional(readOnly = true)
     public List<Computer> findByCategory(Category category) {
         return computerRepository.findByCategory(category);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Computer> findByMaxPrice(BigDecimal maxPrice) {
+        return computerRepository.findByPriceLessThanEqual(maxPrice);
     }
 }
