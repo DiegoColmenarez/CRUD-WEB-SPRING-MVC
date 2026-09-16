@@ -69,6 +69,25 @@ public class PasswordResetController {
         return "redirect:/password-reset/new-password";
     }
 
+    @GetMapping("/new-password")
+    public String showNewPasswordForm(HttpSession session, Model model) {
+        String code = (String) session.getAttribute(SESSION_RESET_CODE);
+        if (code == null) {
+            return "redirect:/password-reset";
+        }
+
+        Optional<User> user = passwordResetService.validateCode(code);
+        if (user.isEmpty()) {
+            session.removeAttribute(SESSION_RESET_CODE);
+            return "redirect:/password-reset";
+        }
+
+        if (!model.containsAttribute("passwordResetRequest")) {
+            model.addAttribute("passwordResetRequest", new PasswordResetRequest());
+        }
+        return "password-reset/new-password";
+    }
+
     @PostMapping("/update-password")
     public String updatePassword(@Valid @ModelAttribute("passwordResetRequest") PasswordResetRequest request,
                                  BindingResult result,
