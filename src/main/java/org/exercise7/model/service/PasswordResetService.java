@@ -61,6 +61,6 @@ public class PasswordResetService {
                 .findFirst()
                 .orElseThrow(() -> new DomainException("Invalid or expired code"));
         userService.updateUserPassword(token.getUser().getId(), newRawPassword);
-        tokenRepository.markAsUsed(code);
+        tokenRepository.markAsUsedById(token.getId());
     }
 }
