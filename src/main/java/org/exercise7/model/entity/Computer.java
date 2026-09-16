@@ -84,4 +84,32 @@ public class Computer {
 
     public Computer() {}
 
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
+    public String getCpuBrand() { return cpuBrand; }
+    public void setCpuBrand(String cpuBrand) { this.cpuBrand = cpuBrand; }
+    public String getCpuSpeed() { return cpuSpeed; }
+    public void setCpuSpeed(String cpuSpeed) { this.cpuSpeed = cpuSpeed; }
+    public RamTechnology getRamTechnology() { return ramTechnology; }
+    public void setRamTechnology(RamTechnology ramTechnology) { this.ramTechnology = ramTechnology; }
+    public String getRamCapacity() { return ramCapacity; }
+    public void setRamCapacity(String ramCapacity) { this.ramCapacity = ramCapacity; }
+    public DiskTechnology getDiskTechnology() { return diskTechnology; }
+    public void setDiskTechnology(DiskTechnology diskTechnology) { this.diskTechnology = diskTechnology; }
+    public String getDiskCapacity() { return diskCapacity; }
+    public void setDiskCapacity(String diskCapacity) { this.diskCapacity = diskCapacity; }
+    public Integer getUsbPorts() { return usbPorts; }
+    public void setUsbPorts(Integer usbPorts) { this.usbPorts = usbPorts; }
+    public Integer getHdmiPorts() { return hdmiPorts; }
+    public void setHdmiPorts(Integer hdmiPorts) { this.hdmiPorts = hdmiPorts; }
+    public String getMonitorBrand() { return monitorBrand; }
+    public void setMonitorBrand(String monitorBrand) { this.monitorBrand = monitorBrand; }
+    public BigDecimal getInches() { return inches; }
+    public void setInches(BigDecimal inches) { this.inches = inches; }
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
 }
