@@ -1,6 +1,7 @@
 package org.exercise7.model.service;
 
 import org.exercise7.model.entity.Computer;
+import org.exercise7.model.exceptions.ComputerNotFoundException;
 import org.exercise7.model.repository.ComputerRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,5 +31,13 @@ public class ComputerService {
     public Computer findById(Long id) {
         return computerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Computer not found with ID: " + id)); //cambialo
+    }
+
+    @Transactional
+    public void deleteComputer(Long id) {
+        if (!computerRepository.existsById(id)) {
+            throw ComputerNotFoundException.becauseIdDoesNotExist();
+        }
+        computerRepository.deleteById(id);
     }
 }
