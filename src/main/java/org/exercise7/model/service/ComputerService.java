@@ -40,4 +40,9 @@ public class ComputerService {
         }
         computerRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public List<Computer> findByBrand(String brand) {
+        return computerRepository.findByBrandContainingIgnoreCase(brand);
+    }
 }
