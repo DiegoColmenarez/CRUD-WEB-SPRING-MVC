@@ -54,4 +54,10 @@ public class ComputerController {
         }
         return "redirect:/computers/list";
     }
+
+    @GetMapping("/list")
+    public String listComputers(Model model) {
+        model.addAttribute("computers", computerService.findAllComputers());
+        return "computers/list";
+    }
 }
