@@ -78,4 +78,11 @@ public class UserController {
         return "redirect:/usuarios/lista";
     }
 
+    @GetMapping("/buscar/apellido")
+    public String findByLastName(@RequestParam("apellido") String apellido, Model model) {
+        model.addAttribute("users", userService.findUsersByLastName(apellido));
+        return "users/lista";
+    }
+
+
 }
