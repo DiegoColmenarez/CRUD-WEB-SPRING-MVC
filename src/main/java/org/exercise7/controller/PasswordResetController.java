@@ -29,11 +29,15 @@ public class PasswordResetController {
             redirectAttributes.addFlashAttribute("errorMessage", "Invalid email format");
             return "redirect:/password-reset";
         }
-
         passwordResetService.requestResetCode(email);
         session.setAttribute("resetEmail", email);
         redirectAttributes.addFlashAttribute("successMessage",
                 "If the email is registered, you will receive a reset code");
         return "redirect:/password-reset/verify";
+    }
+
+    @GetMapping("/verify")
+    public String showCodeForm() {
+        return "password-reset/enter-code";
     }
 }
