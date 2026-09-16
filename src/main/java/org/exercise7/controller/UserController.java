@@ -3,7 +3,6 @@ package org.exercise7.controller;
 import jakarta.validation.Valid;
 import org.exercise7.model.entity.User;
 import org.exercise7.model.enums.TypeUser;
-import org.exercise7.model.exceptions.EmailAlreadyExistsException;
 import org.exercise7.model.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,14 +68,14 @@ public class UserController {
     @PostMapping("/actualizar/{id}")
     public String updateUser(@PathVariable Long id,
                              @ModelAttribute("user") User user,
+                             BindingResult result,
                              Model model) {
-        try {
-            userService.updateUserBasicInfo(id, user.getName(), user.getLastName(), user.getEmail());
-            return "redirect:/usuarios/lista";
-        } catch (EmailAlreadyExistsException ex) {
-            model.addAttribute("error", "El correo ingresado ya pertenece a otro usuario.");
+        if (result.hasErrors()) {
             user.setId(id);
             return "users/formulario";
         }
+        userService.updateUserBasicInfo(id, user.getName(), user.getLastName(), user.getEmail());
+        return "redirect:/usuarios/lista";
     }
+
 }
