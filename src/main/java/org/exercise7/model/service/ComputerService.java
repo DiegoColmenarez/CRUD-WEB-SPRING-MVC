@@ -32,7 +32,7 @@ public class ComputerService {
     @Transactional(readOnly = true)
     public Computer findById(Long id) {
         return computerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Computer not found with ID: " + id)); //cambialo
+                .orElseThrow(ComputerNotFoundException::becauseIdDoesNotExist);
     }
 
     @Transactional
