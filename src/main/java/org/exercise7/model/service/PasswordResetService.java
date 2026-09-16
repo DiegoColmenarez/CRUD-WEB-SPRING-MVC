@@ -44,4 +44,12 @@ public class PasswordResetService {
         tokenRepository.save(token);
         emailService.sendResetCode(email, code);
     }
+
+    @Transactional(readOnly = true)
+    public Optional<User> validateCode(String code) {
+        return tokenRepository.findValidByCode(code)
+                .stream()
+                .findFirst()
+                .map(PasswordResetToken::getUser);
+    }
 }
