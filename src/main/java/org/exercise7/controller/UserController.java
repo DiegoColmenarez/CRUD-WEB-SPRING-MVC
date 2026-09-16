@@ -3,6 +3,7 @@ package org.exercise7.controller;
 import jakarta.validation.Valid;
 import org.exercise7.model.entity.User;
 import org.exercise7.model.enums.TypeUser;
+import org.exercise7.model.exceptions.EmailAlreadyExistsException;
 import org.exercise7.model.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,12 +74,19 @@ public class UserController {
                             @Valid @ModelAttribute("user") User user,
                              BindingResult result,
                              Model model) {
-        if (result.hasErrors()) {
+        if (result.hasFieldErrors("name") || result.hasFieldErrors("lastName") || result.hasFieldErrors("email")) {
             user.setId(id);
             model.addAttribute("roles", TypeUser.values());
             return "users/formulario";
         }
-        userService.updateUserBasicInfo(id, user.getName(), user.getLastName(), user.getEmail());
+        try {
+            userService.updateUserBasicInfo(id, user.getName(), user.getLastName(), user.getEmail());
+        } catch (EmailAlreadyExistsException ex) {
+            user.setId(id);
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("roles", TypeUser.values());
+            return "users/formulario";
+        }
         return "redirect:/usuarios/lista";
     }
 
