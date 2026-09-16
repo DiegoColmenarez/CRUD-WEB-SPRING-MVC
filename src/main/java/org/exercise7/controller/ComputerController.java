@@ -34,7 +34,7 @@ public class ComputerController {
     @GetMapping("/new")
     public String showRegistrationForm(Model model) {
         model.addAttribute("computer", new Computer());
-        return "computers/form";
+        return "computers/formulario";
     }
 
     @PostMapping("/save")
@@ -42,22 +42,25 @@ public class ComputerController {
             @Valid @ModelAttribute("computer") Computer computer,
             BindingResult result,
             Model model) {
+
         if (result.hasErrors()) {
-            return "computers/form";
+            return "computers/formulario";
         }
+
         try {
             computerService.saveComputer(computer);
         } catch (DomainException e) {
             model.addAttribute("businessError", e.getMessage());
-            return "computers/form";
+            return "computers/formulario";
         }
+
         return "redirect:/computers/list";
     }
 
     @GetMapping("/list")
     public String listComputers(Model model) {
         model.addAttribute("computers", computerService.findAllComputers());
-        return "computers/list";
+        return "computers/lista";
     }
 
     @PostMapping("/delete/{id}")
@@ -69,24 +72,24 @@ public class ComputerController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("computer", computerService.findById(id));
-        return "computers/form";
+        return "computers/formulario";
     }
 
     @GetMapping("/search/brand")
     public String searchByBrand(@RequestParam("brand") String brand, Model model) {
         model.addAttribute("computers", computerService.findByBrand(brand));
-        return "computers/list";
+        return "computers/lista";
     }
 
     @GetMapping("/search/category")
     public String searchByCategory(@RequestParam("category") Category category, Model model) {
         model.addAttribute("computers", computerService.findByCategory(category));
-        return "computers/list";
+        return "computers/lista";
     }
 
     @GetMapping("/search/price")
     public String searchByMaxPrice(@RequestParam("maxPrice") BigDecimal maxPrice, Model model) {
         model.addAttribute("computers", computerService.findByMaxPrice(maxPrice));
-        return "computers/list";
+        return "computers/lista";
     }
 }
