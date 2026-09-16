@@ -1,11 +1,13 @@
 package org.exercise7.controller;
 
+import org.exercise7.model.entity.Computer;
 import org.exercise7.model.enums.Category;
 import org.exercise7.model.enums.DiskTechnology;
 import org.exercise7.model.enums.RamTechnology;
 import org.exercise7.model.service.ComputerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,4 +28,9 @@ public class ComputerController {
         model.addAttribute("diskTechnologies", DiskTechnology.values());
     }
 
+    @GetMapping("/new")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("computer", new Computer());
+        return "computers/form";
+    }
 }
