@@ -14,4 +14,8 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
             "ORDER BY t.createdAt DESC")
     List<PasswordResetToken> findValidByCode(@Param("code") String code);
 
+
+    @Modifying
+    @Query("UPDATE PasswordResetToken t SET t.used = true WHERE t.code = :code")
+    void markAsUsed(@Param("code") String code);
 }
