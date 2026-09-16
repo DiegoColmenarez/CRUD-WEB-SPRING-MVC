@@ -2,6 +2,7 @@ package org.exercise7.model.service;
 
 import org.exercise7.model.entity.PasswordResetToken;
 import org.exercise7.model.entity.User;
+import org.exercise7.model.exceptions.DomainException;
 import org.exercise7.model.repository.PasswordResetTokenRepository;
 import org.exercise7.model.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,5 +52,15 @@ public class PasswordResetService {
                 .stream()
                 .findFirst()
                 .map(PasswordResetToken::getUser);
+    }
+
+    @Transactional
+    public void resetPassword(String code, String newRawPassword) {
+        PasswordResetToken token = tokenRepository.findValidByCode(code)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new DomainException("Invalid or expired code"));
+        userService.updateUserPassword(token.getUser().getId(), newRawPassword);
+        tokenRepository.markAsUsed(code);
     }
 }
