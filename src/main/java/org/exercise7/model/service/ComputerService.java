@@ -1,6 +1,7 @@
 package org.exercise7.model.service;
 
 import org.exercise7.model.entity.Computer;
+import org.exercise7.model.enums.Category;
 import org.exercise7.model.exceptions.ComputerNotFoundException;
 import org.exercise7.model.repository.ComputerRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +45,10 @@ public class ComputerService {
     @Transactional(readOnly = true)
     public List<Computer> findByBrand(String brand) {
         return computerRepository.findByBrandContainingIgnoreCase(brand);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Computer> findByCategory(Category category) {
+        return computerRepository.findByCategory(category);
     }
 }
