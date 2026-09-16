@@ -24,6 +24,7 @@ public class UserController {
     @GetMapping("/nuevo")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("roles", TypeUser.values());
         return "users/formulario";
     }
 
@@ -33,9 +34,10 @@ public class UserController {
             BindingResult result,
             Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("roles", TypeUser.values());
             return "users/formulario";
         }
-        userService.registerUser(user);
+        userService.saveUser(user);
         return "redirect:/usuarios/lista";
     }
 
@@ -62,6 +64,7 @@ public class UserController {
     @GetMapping("/editar/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
+        model.addAttribute("roles", TypeUser.values());
         return "users/formulario";
     }
 
@@ -72,6 +75,7 @@ public class UserController {
                              Model model) {
         if (result.hasErrors()) {
             user.setId(id);
+            model.addAttribute("roles", TypeUser.values());
             return "users/formulario";
         }
         userService.updateUserBasicInfo(id, user.getName(), user.getLastName(), user.getEmail());
