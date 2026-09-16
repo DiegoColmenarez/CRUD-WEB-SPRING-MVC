@@ -5,11 +5,13 @@ import org.exercise7.model.entity.User;
 import org.exercise7.model.exceptions.DomainException;
 import org.exercise7.model.repository.PasswordResetTokenRepository;
 import org.exercise7.model.repository.UserRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Service
 public class PasswordResetService {
     private static final int CODE_EXPIRATION_MINUTES = 15;
 

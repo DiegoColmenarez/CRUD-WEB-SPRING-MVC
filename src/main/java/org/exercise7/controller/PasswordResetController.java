@@ -6,16 +6,16 @@ import org.exercise7.model.dto.PasswordResetRequest;
 import org.exercise7.model.entity.User;
 import org.exercise7.model.exceptions.DomainException;
 import org.exercise7.model.service.PasswordResetService;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
+@Controller
+@RequestMapping("/password-reset")
 public class PasswordResetController {
 
     private static final String SESSION_RESET_CODE = "resetCode";
