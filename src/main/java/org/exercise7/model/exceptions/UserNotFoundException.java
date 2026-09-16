@@ -1,6 +1,6 @@
 package org.exercise7.model.exceptions;
 
-public class UserNotFoundException extends DomainException{
+public class UserNotFoundException extends ResourceNotFoundException {
     public UserNotFoundException(String message) {
         super(message);
     }
