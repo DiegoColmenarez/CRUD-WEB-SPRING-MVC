@@ -101,5 +101,6 @@ public class UserService {
         existingUser.setName(newName);
         existingUser.setLastName(newLastName);
         existingUser.setEmail(newEmail);
+        userRepository.save(existingUser);
     }
 }
