@@ -4,6 +4,8 @@ import org.exercise7.model.entity.Computer;
 import org.exercise7.model.repository.ComputerRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public class ComputerService {
 
     private final ComputerRepository computerRepository;
@@ -17,5 +19,10 @@ public class ComputerService {
             throw new IllegalArgumentException("Total port count cannot exceed 20");
         }
         return computerRepository.save(computer);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Computer> findAllComputers() {
+        return computerRepository.findAll();
     }
 }
