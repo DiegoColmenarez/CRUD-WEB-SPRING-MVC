@@ -1,6 +1,6 @@
 package org.exercise7.model.exceptions;
 
-public class ComputerNotFoundException extends DomainException{
+public class ComputerNotFoundException extends ResourceNotFoundException{
     public ComputerNotFoundException(String message) {
         super(message);
     }
