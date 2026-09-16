@@ -1,11 +1,14 @@
 package org.exercise7.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.exercise7.model.entity.User;
 import org.exercise7.model.service.PasswordResetService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 public class PasswordResetController {
 
@@ -39,5 +42,24 @@ public class PasswordResetController {
     @GetMapping("/verify")
     public String showCodeForm() {
         return "password-reset/enter-code";
+    }
+
+    @PostMapping("/verify-code")
+    public String verifyCode(@RequestParam("code") String code,
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
+        if (code == null || !code.matches("\\d{6}")) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Code must be 6 digits");
+            return "redirect:/password-reset/verify";
+        }
+
+        Optional<User> user = passwordResetService.validateCode(code);
+        if (user.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid or expired code");
+            return "redirect:/password-reset/verify";
+        }
+
+        session.setAttribute(SESSION_RESET_CODE, code);
+        return "redirect:/password-reset/new-password";
     }
 }
