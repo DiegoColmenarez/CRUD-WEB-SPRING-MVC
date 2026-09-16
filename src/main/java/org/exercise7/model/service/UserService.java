@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 public class UserService {
 
@@ -26,9 +25,10 @@ public class UserService {
     @Transactional
     public User registerUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-           throw EmailAlreadyExistsException.becauseEmailAlredyExist();
+            throw EmailAlreadyExistsException.becauseEmailAlredyExist();
         }
-         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setType(TypeUser.CLIENTE);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -36,12 +36,6 @@ public class UserService {
     public User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.becauseIdDoesNotExist(id));
-    }
-
-    @Transactional(readOnly = true)
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> UserNotFoundException.becauseEmailDoesNotExist(email));
     }
 
     @Transactional(readOnly = true)
@@ -57,6 +51,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<User> findUsersByLastName(String lastName) {
         return userRepository.findByLastName(lastName);
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> findUsersByType(TypeUser type) {
+        return userRepository.findByType(type);
     }
 
     @Transactional
@@ -77,15 +76,15 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserBasicInfo(Long id, String newName, String newLastName) {
+    public void updateUserBasicInfo(Long id, String newName, String newLastName, String newEmail) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.becauseIdDoesNotExist(id));
+
+        if (!existingUser.getEmail().equals(newEmail) && userRepository.existsByEmail(newEmail)) {
+            throw EmailAlreadyExistsException.becauseEmailAlredyExist();
+        }
         existingUser.setName(newName);
         existingUser.setLastName(newLastName);
-    }
-
-    @Transactional(readOnly = true)
-    public List<User> findUsersByType(TypeUser type) {
-        return userRepository.findByType(type);
+        existingUser.setEmail(newEmail);
     }
 }

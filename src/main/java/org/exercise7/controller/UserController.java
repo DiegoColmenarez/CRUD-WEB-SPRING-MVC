@@ -3,6 +3,7 @@ package org.exercise7.controller;
 import jakarta.validation.Valid;
 import org.exercise7.model.entity.User;
 import org.exercise7.model.enums.TypeUser;
+import org.exercise7.model.exceptions.EmailAlreadyExistsException;
 import org.exercise7.model.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/usuarios")
 public class UserController {
+
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -53,8 +55,8 @@ public class UserController {
 
     @GetMapping("/tipo")
     public String listUsersByType(@RequestParam("tipo") TypeUser type, Model model) {
-        //List<User> users = userService.findUsersByType(type);
-        //model.addAttribute("users", users);
+        List<User> users = userService.findUsersByType(type);
+        model.addAttribute("users", users);
         return "users/lista";
     }
 
@@ -66,13 +68,15 @@ public class UserController {
 
     @PostMapping("/actualizar/{id}")
     public String updateUser(@PathVariable Long id,
-                             @Valid @ModelAttribute("user") User user,
-                             BindingResult result) {
-        if (result.hasErrors()) return "users/formulario";
-        userService.updateUserBasicInfo(id, user.getName(), user.getLastName());
-        userService.updateUserPassword(id, user.getPassword());
-        return "redirect:/usuarios/lista";
+                             @ModelAttribute("user") User user,
+                             Model model) {
+        try {
+            userService.updateUserBasicInfo(id, user.getName(), user.getLastName(), user.getEmail());
+            return "redirect:/usuarios/lista";
+        } catch (EmailAlreadyExistsException ex) {
+            model.addAttribute("error", "El correo ingresado ya pertenece a otro usuario.");
+            user.setId(id);
+            return "users/formulario";
+        }
     }
-
-
 }
