@@ -10,10 +10,7 @@ import org.exercise7.model.service.ComputerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/computers")
@@ -60,4 +57,10 @@ public class ComputerController {
         model.addAttribute("computers", computerService.findAllComputers());
         return "computers/list";
     }
+    @PostMapping("/delete/{id}")
+    public String deleteComputer(@PathVariable("id") Long id) {
+        computerService.deleteComputer(id);
+        return "redirect:/computers/list";
+    }
+
 }
