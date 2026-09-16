@@ -1,9 +1,15 @@
 package org.exercise7.controller;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.exercise7.model.dto.PasswordResetRequest;
 import org.exercise7.model.entity.User;
+import org.exercise7.model.exceptions.DomainException;
 import org.exercise7.model.service.PasswordResetService;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -61,5 +67,34 @@ public class PasswordResetController {
 
         session.setAttribute(SESSION_RESET_CODE, code);
         return "redirect:/password-reset/new-password";
+    }
+
+    @PostMapping("/update-password")
+    public String updatePassword(@Valid @ModelAttribute("passwordResetRequest") PasswordResetRequest request,
+                                 BindingResult result,
+                                 HttpSession session,
+                                 Model model) {
+
+        String code = (String) session.getAttribute(SESSION_RESET_CODE);
+        if (code == null) {
+            return "redirect:/password-reset";
+        }
+        if (request.getPassword() != null
+                && !request.getPassword().equals(request.getConfirmPassword())) {
+            result.rejectValue("confirmPassword", "mismatch", "Passwords do not match");
+        }
+        if (result.hasErrors()) {
+            return "password-reset/new-password";
+        }
+
+        try {
+            passwordResetService.resetPassword(code, request.getPassword());
+            session.removeAttribute(SESSION_RESET_CODE);
+            session.removeAttribute("resetEmail");
+            return "redirect:/login?resetSuccess";
+        } catch (DomainException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "password-reset/new-password";
+        }
     }
 }
