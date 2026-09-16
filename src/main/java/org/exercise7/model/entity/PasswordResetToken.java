@@ -1,5 +1,6 @@
+package org.exercise7.model.entity;
+
 import jakarta.persistence.*;
-import org.exercise7.model.entity.User;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
@@ -29,5 +30,11 @@ public class PasswordResetToken {
     private LocalDateTime createdAt;
 
     public PasswordResetToken() {
+    }
+
+    public PasswordResetToken(User user, String code, LocalDateTime expiresAt) {
+        this.user = user;
+        this.code = code;
+        this.expiresAt = expiresAt;
     }
 }
