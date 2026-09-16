@@ -70,4 +70,9 @@ public class ComputerController {
         return "computers/form";
     }
 
+    @GetMapping("/search/brand")
+    public String searchByBrand(@RequestParam("brand") String brand, Model model) {
+        model.addAttribute("computers", computerService.findByBrand(brand));
+        return "computers/list";
+    }
 }
