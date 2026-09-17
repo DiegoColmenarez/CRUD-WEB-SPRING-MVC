@@ -27,7 +27,7 @@ public class Computer {
     private String cpuBrand;
 
     @NotNull(message = "CPU speed is required")
-    @Positive(message = "CPU speed must be positive")
+    @Positive(message = "CPU speed must be greater than 0")
     @Column(name = "velocidad_cpu", nullable = false, precision = 5, scale = 2)
     private BigDecimal cpuSpeed;
 
@@ -47,17 +47,17 @@ public class Computer {
     private DiskTechnology diskTechnology;
 
     @NotNull(message = "Disk capacity is required")
-    @Positive(message = "Disk capacity must be positive")
+    @Positive(message = "Disk capacity must be greater than 0")
     @Column(name = "capacidad_disco", nullable = false)
     private Integer diskCapacity;
 
-    @NotNull
-    @PositiveOrZero
+    @NotNull(message = "Number of USB ports is required")
+    @PositiveOrZero(message = "USB ports cannot be negative")
     @Column(name = "num_puertos_usb", nullable = false)
     private Integer usbPorts;
 
-    @NotNull
-    @PositiveOrZero
+    @NotNull(message = "Number of HDMI ports is required")
+    @PositiveOrZero(message = "HDMI ports cannot be negative")
     @Column(name = "num_puertos_hdmi", nullable = false)
     private Integer hdmiPorts;
 
@@ -65,18 +65,19 @@ public class Computer {
     @Column(name = "marca_monitor", nullable = false, length = 100)
     private String monitorBrand;
 
-    @NotNull
-    @Positive
-    @Max(80)
+    @NotNull(message = "Inches are required")
+    @Positive(message = "Inches must be greater than 0")
+    @Max(value = 80, message = "Maximum allowed size is 80 inches")
     @Column(name = "pulgadas", nullable = false, precision = 5, scale = 2)
     private BigDecimal inches;
 
-    @NotNull
-    @Positive
-    @Max(1000000)
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be greater than 0")
+    @Max(value = 1000000, message = "Price exceeds the allowed limit")
     @Column(name = "precio", nullable = false, precision = 9, scale = 2)
     private BigDecimal price;
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getBrand() { return brand; }
