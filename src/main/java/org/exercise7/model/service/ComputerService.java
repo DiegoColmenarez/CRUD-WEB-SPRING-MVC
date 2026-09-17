@@ -35,13 +35,13 @@ public class ComputerService {
     @Transactional(readOnly = true)
     public Computer findById(Long id) {
         return computerRepository.findById(id)
-                .orElseThrow(ComputerNotFoundException::becauseIdDoesNotExist);
+                .orElseThrow(() -> ComputerNotFoundException.becauseIdDoesNotExist(id));
     }
 
     @Transactional
     public void deleteComputer(Long id) {
         if (!computerRepository.existsById(id)) {
-            throw ComputerNotFoundException.becauseIdDoesNotExist();
+            throw ComputerNotFoundException.becauseIdDoesNotExist(id);
         }
         computerRepository.deleteById(id);
     }
