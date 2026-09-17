@@ -2,9 +2,7 @@ package org.exercise7.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.exercise7.model.enums.Category;
-import org.exercise7.model.enums.DiskTechnology;
-import org.exercise7.model.enums.RamTechnology;
+import org.exercise7.model.enums.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -15,75 +13,71 @@ public class Computer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Brand cannot be empty")
-    @Size(min = 2, max = 50, message = "Brand must be between 2 and 50 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9\\s\\-_]+$", message = "Invalid brand format")
-    @Column(name = "brand", nullable = false)
+    @NotBlank(message = "Brand is required")
+    @Column(name = "marca", nullable = false, length = 50)
     private String brand;
 
+    @NotNull(message = "Category is required")
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Category is mandatory")
-    @Column(name = "category", nullable = false)
+    @Column(name = "categoria", nullable = false, length = 50)
     private Category category;
 
-    @NotBlank(message = "CPU brand is mandatory")
-    @Column(name = "cpu_brand")
+    @NotBlank(message = "CPU brand is required")
+    @Column(name = "marca_cpu", nullable = false, length = 100)
     private String cpuBrand;
 
-    @NotBlank(message = "CPU speed is mandatory")
-    @Pattern(regexp = "(?i)^\\d+(\\.\\d+)?\\s*(GHz|MHz)?$", message = "Invalid speed format (e.g., 3.5GHz)")
-    @Column(name = "cpu_speed")
-    private String cpuSpeed;
+    @NotNull(message = "CPU speed is required")
+    @Positive(message = "CPU speed must be greater than 0")
+    @Column(name = "velocidad_cpu", nullable = false, precision = 5, scale = 2)
+    private BigDecimal cpuSpeed;
 
+    @NotNull(message = "RAM technology is required")
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "RAM technology is mandatory")
-    @Column(name = "ram_technology")
+    @Column(name = "tecnologia_ram", nullable = false, length = 20)
     private RamTechnology ramTechnology;
 
-    @NotBlank(message = "RAM capacity is mandatory")
-    @Pattern(regexp = "^\\d+\\s*(GB|MB)$", message = "Invalid capacity format (e.g., 16GB)")
-    @Column(name = "ram_capacity")
-    private String ramCapacity;
+    @NotNull(message = "RAM capacity is required")
+    @Positive(message = "RAM capacity must be greater than 0")
+    @Column(name = "capacidad_ram", nullable = false)
+    private Integer ramCapacity;
 
+    @NotNull(message = "Disk technology is required")
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Disk technology is mandatory")
-    @Column(name = "disk_technology")
+    @Column(name = "tecnologia_disco", nullable = false, length = 20)
     private DiskTechnology diskTechnology;
 
-    @NotBlank(message = "Disk capacity is mandatory")
-    @Pattern(regexp = "^\\d+\\s*(GB|TB|MB)$", message = "Invalid capacity format (e.g., 1TB)")
-    @Column(name = "disk_capacity")
-    private String diskCapacity;
+    @NotNull(message = "Disk capacity is required")
+    @Positive(message = "Disk capacity must be greater than 0")
+    @Column(name = "capacidad_disco", nullable = false)
+    private Integer diskCapacity;
 
-    @NotNull(message = "USB ports count is mandatory")
-    @Min(value = 0, message = "Cannot have negative ports")
-    @Column(name = "usb_ports")
+    @NotNull(message = "Number of USB ports is required")
+    @PositiveOrZero(message = "USB ports cannot be negative")
+    @Column(name = "num_puertos_usb", nullable = false)
     private Integer usbPorts;
 
-    @NotNull(message = "HDMI ports count is mandatory")
-    @Min(value = 0, message = "Cannot have negative ports")
-    @Column(name = "hdmi_ports")
+    @NotNull(message = "Number of HDMI ports is required")
+    @PositiveOrZero(message = "HDMI ports cannot be negative")
+    @Column(name = "num_puertos_hdmi", nullable = false)
     private Integer hdmiPorts;
 
-    @NotBlank(message = "Monitor brand is mandatory")
-    @Column(name = "monitor_brand")
+    @NotBlank(message = "Monitor brand is required")
+    @Column(name = "marca_monitor", nullable = false, length = 100)
     private String monitorBrand;
 
-    @NotNull(message = "Screen size (inches) is mandatory")
-    @DecimalMin(value = "0.1", message = "Inches must be strictly positive")
-    @DecimalMax(value = "80.0", message = "Inches cannot exceed 80")
-    @Column(name = "inches")
+    @NotNull(message = "Inches are required")
+    @Positive(message = "Inches must be greater than 0")
+    @Max(value = 80, message = "Maximum allowed size is 80 inches")
+    @Column(name = "pulgadas", nullable = false, precision = 5, scale = 2)
     private BigDecimal inches;
 
-    @NotNull(message = "Price is mandatory")
-    @DecimalMin(value = "0.01", message = "Price must be strictly positive")
-    @DecimalMax(value = "1000000.00", message = "Price exceeds allowed limit")
-    @Digits(integer = 7, fraction = 2, message = "Invalid price format")
-    @Column(name = "price")
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be greater than 0")
+    @Max(value = 1000000, message = "Price exceeds the allowed limit")
+    @Column(name = "precio", nullable = false, precision = 9, scale = 2)
     private BigDecimal price;
 
-    public Computer() {}
-
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getBrand() { return brand; }
@@ -92,16 +86,16 @@ public class Computer {
     public void setCategory(Category category) { this.category = category; }
     public String getCpuBrand() { return cpuBrand; }
     public void setCpuBrand(String cpuBrand) { this.cpuBrand = cpuBrand; }
-    public String getCpuSpeed() { return cpuSpeed; }
-    public void setCpuSpeed(String cpuSpeed) { this.cpuSpeed = cpuSpeed; }
+    public BigDecimal getCpuSpeed() { return cpuSpeed; }
+    public void setCpuSpeed(BigDecimal cpuSpeed) { this.cpuSpeed = cpuSpeed; }
     public RamTechnology getRamTechnology() { return ramTechnology; }
     public void setRamTechnology(RamTechnology ramTechnology) { this.ramTechnology = ramTechnology; }
-    public String getRamCapacity() { return ramCapacity; }
-    public void setRamCapacity(String ramCapacity) { this.ramCapacity = ramCapacity; }
+    public Integer getRamCapacity() { return ramCapacity; }
+    public void setRamCapacity(Integer ramCapacity) { this.ramCapacity = ramCapacity; }
     public DiskTechnology getDiskTechnology() { return diskTechnology; }
     public void setDiskTechnology(DiskTechnology diskTechnology) { this.diskTechnology = diskTechnology; }
-    public String getDiskCapacity() { return diskCapacity; }
-    public void setDiskCapacity(String diskCapacity) { this.diskCapacity = diskCapacity; }
+    public Integer getDiskCapacity() { return diskCapacity; }
+    public void setDiskCapacity(Integer diskCapacity) { this.diskCapacity = diskCapacity; }
     public Integer getUsbPorts() { return usbPorts; }
     public void setUsbPorts(Integer usbPorts) { this.usbPorts = usbPorts; }
     public Integer getHdmiPorts() { return hdmiPorts; }

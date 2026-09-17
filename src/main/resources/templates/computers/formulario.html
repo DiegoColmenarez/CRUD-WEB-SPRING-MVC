@@ -1,213 +1,121 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${computer.id == null ? 'Nuevo Registro' : 'Editar Información'}">Gestión de Computadores</title>
+    <title>Formulario de Computadora</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body>
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0" th:text="${computer.id == null ? 'Registrar Nuevo Equipo' : 'Editar Información Básica'}"></h4>
-                </div>
-                <div class="card-body">
+    <h2 th:text="${computer.id == null ? 'Nueva Computadora' : 'Editar Computadora'}"></h2>
+    <hr>
 
-                    <div th:if="${businessError}" class="alert alert-danger" th:text="${businessError}"></div>
+    <form th:action="@{/computers/save}" th:object="${computer}" method="post">
 
-                    <form th:action="@{/computers/save}" th:object="${computer}" method="post">
+        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+            Por favor, corrige los errores en el formulario asegurándote de ingresar datos válidos.
+        </div>
 
-                        <input type="hidden" th:field="*{id}" th:if="${computer.id != null}"/>
+        <input type="hidden" th:field="*{id}" />
 
-                        <div class="mb-3">
-                            <label class="form-label">Marca</label>
-                            <input type="text" th:field="*{brand}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('brand')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('brand')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{brand}">
-                                Error en la marca
-                            </div>
-                        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Marca</label>
+                <input type="text" class="form-control" th:field="*{brand}" th:errorclass="is-invalid" placeholder="Ej. Dell, HP">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
+            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Categoría</label>
-                            <select th:field="*{category}"
-                                    class="form-select"
-                                    th:classappend="${#fields.hasErrors('category')} ? 'is-invalid' : ''" required>
-                                <option value="" disabled selected>Seleccione...</option>
-                                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat.value}"></option>
-                            </select>
-                            <div th:if="${#fields.hasErrors('category')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{category}">
-                                Error en categoría
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Marca CPU</label>
-                            <input type="text" th:field="*{cpuBrand}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('cpuBrand')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('cpuBrand')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{cpuBrand}">
-                                Error en CPU
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Velocidad CPU</label>
-                            <input type="text" th:field="*{cpuSpeed}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('cpuSpeed')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('cpuSpeed')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{cpuSpeed}">
-                                Error en velocidad
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Tecnología RAM</label>
-                            <select th:field="*{ramTechnology}"
-                                    class="form-select"
-                                    th:classappend="${#fields.hasErrors('ramTechnology')} ? 'is-invalid' : ''" required>
-                                <option value="" disabled selected>Seleccione...</option>
-                                <option th:each="ram : ${ramTechnologies}" th:value="${ram}" th:text="${ram.value}"></option>
-                            </select>
-                            <div th:if="${#fields.hasErrors('ramTechnology')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{ramTechnology}">
-                                Error en RAM
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Capacidad RAM</label>
-                            <input type="text" th:field="*{ramCapacity}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('ramCapacity')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('ramCapacity')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{ramCapacity}">
-                                Error en capacidad RAM
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Tecnología Disco</label>
-                            <select th:field="*{diskTechnology}"
-                                    class="form-select"
-                                    th:classappend="${#fields.hasErrors('diskTechnology')} ? 'is-invalid' : ''" required>
-                                <option value="" disabled selected>Seleccione...</option>
-                                <option th:each="disk : ${diskTechnologies}" th:value="${disk}" th:text="${disk.name()}"></option>
-                            </select>
-                            <div th:if="${#fields.hasErrors('diskTechnology')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{diskTechnology}">
-                                Error en disco
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Capacidad Disco</label>
-                            <input type="text" th:field="*{diskCapacity}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('diskCapacity')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('diskCapacity')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{diskCapacity}">
-                                Error en capacidad de disco
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Puertos USB</label>
-                            <input type="number" th:field="*{usbPorts}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('usbPorts')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('usbPorts')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{usbPorts}">
-                                Error en puertos USB
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Puertos HDMI</label>
-                            <input type="number" th:field="*{hdmiPorts}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('hdmiPorts')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('hdmiPorts')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{hdmiPorts}">
-                                Error en puertos HDMI
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Marca Monitor</label>
-                            <input type="text" th:field="*{monitorBrand}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('monitorBrand')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('monitorBrand')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{monitorBrand}">
-                                Error en monitor
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Pulgadas</label>
-                            <input type="number" step="0.1" th:field="*{inches}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('inches')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('inches')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{inches}">
-                                Error en pulgadas
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label">Precio ($)</label>
-                            <input type="number" step="0.01" th:field="*{price}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('price')} ? 'is-invalid' : ''"
-                                   required>
-                            <div th:if="${#fields.hasErrors('price')}"
-                                 class="alert alert-danger mt-2 py-1 px-2 small"
-                                 th:errors="*{price}">
-                                Error en precio
-                            </div>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success"
-                                    th:text="${computer.id == null ? 'Guardar Registro' : 'Guardar Cambios'}"></button>
-
-                            <a th:href="@{/computers/list}"
-                               class="btn btn-secondary">Cancelar y Volver</a>
-                        </div>
-                    </form>
-                </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Categoría</label>
+                <select class="form-select" th:field="*{category}" th:errorclass="is-invalid">
+                    <option value="GAMING">Gaming</option>
+                    <option value="OFFICE">Office</option>
+                    <option value="WORKSTATION">Workstation</option>
+                    <option value="ULTRABOOK">Ultrabook</option>
+                    <option value="ALL_IN_ONE">All in One</option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
             </div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Marca CPU</label>
+                <input type="text" class="form-control" th:field="*{cpuBrand}" th:errorclass="is-invalid" placeholder="Ej. Intel Core i7">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('cpuBrand')}" th:errors="*{cpuBrand}"></div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Velocidad CPU (GHz)</label>
+                <input type="number" step="0.01" min="0" class="form-control" th:field="*{cpuSpeed}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('cpuSpeed')}" th:errors="*{cpuSpeed}"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Capacidad RAM (GB)</label>
+                <input type="number" step="1" min="1" class="form-control" th:field="*{ramCapacity}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('ramCapacity')}" th:errors="*{ramCapacity}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Tecnología RAM</label>
+                <select class="form-select" th:field="*{ramTechnology}" th:errorclass="is-invalid">
+                    <option value="DDR3">DDR3</option>
+                    <option value="DDR4">DDR4</option>
+                    <option value="DDR5">DDR5</option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('ramTechnology')}" th:errors="*{ramTechnology}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Precio ($)</label>
+                <input type="number" step="0.01" min="0" class="form-control" th:field="*{price}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Capacidad Disco (GB)</label>
+                <input type="number" step="1" min="1" class="form-control" th:field="*{diskCapacity}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('diskCapacity')}" th:errors="*{diskCapacity}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Tecnología Disco</label>
+                <select class="form-select" th:field="*{diskTechnology}" th:errorclass="is-invalid">
+                    <option value="HDD">HDD</option>
+                    <option value="SSD">SSD</option>
+                    <option value="NVME">NVMe</option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('diskTechnology')}" th:errors="*{diskTechnology}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Marca Monitor</label>
+                <input type="text" class="form-control" th:field="*{monitorBrand}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('monitorBrand')}" th:errors="*{monitorBrand}"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Pulgadas Monitor</label>
+                <input type="number" step="0.01" min="0" max="80" class="form-control" th:field="*{inches}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('inches')}" th:errors="*{inches}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Puertos HDMI</label>
+                <input type="number" step="1" min="0" class="form-control" th:field="*{hdmiPorts}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('hdmiPorts')}" th:errors="*{hdmiPorts}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Puertos USB</label>
+                <input type="number" step="1" min="0" class="form-control" th:field="*{usbPorts}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('usbPorts')}" th:errors="*{usbPorts}"></div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Computadora</button>
+        <a th:href="@{/computers}" class="btn btn-secondary">Cancelar</a>
+    </form>
 </div>
 </body>
 </html>
