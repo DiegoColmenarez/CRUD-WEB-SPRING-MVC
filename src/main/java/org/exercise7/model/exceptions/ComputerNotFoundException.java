@@ -7,7 +7,7 @@ public class ComputerNotFoundException extends ResourceNotFoundException{
 
     private static final String MESSAGE_COMPUTER_NOT_EXIST = "The computer id: '%d' don't exist";
 
-    public static ComputerNotFoundException becauseIdDoesNotExist(){
-        return new ComputerNotFoundException(MESSAGE_COMPUTER_NOT_EXIST);
+    public static ComputerNotFoundException becauseIdDoesNotExist(Long computerId){
+        return new ComputerNotFoundException(String.format(MESSAGE_COMPUTER_NOT_EXIST, computerId));
     }
 }
