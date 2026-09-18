@@ -77,7 +77,6 @@ public class Computer {
     @Column(name = "precio", nullable = false, precision = 9, scale = 2)
     private BigDecimal price;
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getBrand() { return brand; }
